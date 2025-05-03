@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | Online Exam</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <form id="registerForm" class="form">
+      <h2>Register</h2>
+      <input type="text" id="registerName" placeholder="Name" required />
+      <input type="email" id="registerEmail" placeholder="Email" required />
+      <input type="password" id="registerPassword" placeholder="Password" required />
+      <select id="registerRole" required>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="index.html">Login</a></p>
+    </form>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
