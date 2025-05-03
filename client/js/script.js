@@ -1,3 +1,5 @@
+const BASE_URL = "https://exam-backend-vr0j.onrender.com"; // 🟢 Replace with your actual Render URL
+
 // Register
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
@@ -9,7 +11,7 @@ if (registerForm) {
     const role = document.getElementById("registerRole").value;
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch(`${BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, role }),
@@ -36,7 +38,7 @@ if (loginForm) {
     const password = document.getElementById("loginPassword").value;
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -56,7 +58,7 @@ if (loginForm) {
   });
 }
 
-// ✅ Toast (Optional - better than alert)
+// ✅ Toast UI
 function showToast(message) {
   const toast = document.createElement("div");
   toast.textContent = message;
