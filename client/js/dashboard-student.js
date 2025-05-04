@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
+  const BASE_URL = "https://exam-backend-vr0j.onrender.com";
 
-  fetch("http://localhost:5000/api/student/dashboard", {
+  fetch(`${BASE_URL}/api/student/dashboard`, {
     headers: {
       Authorization: token
     }
@@ -54,7 +55,6 @@ function renderCurrentExams(list) {
     box.appendChild(card);
   });
 }
-
 
 function renderUpcomingExams(list) {
   const container = document.getElementById("upcomingList");
