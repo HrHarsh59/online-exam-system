@@ -1,3 +1,5 @@
+const BASE_URL = "https://exam-backend-vr0j.onrender.com";
+
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
@@ -11,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadTeacherExams();
 
   document.getElementById("createExamBtn").addEventListener("click", () => {
-    window.location.href = "create-exam.html"; // Later we will build this page
+    window.location.href = "create-exam.html";
   });
 });
 
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function loadTeacherExams() {
   const token = localStorage.getItem("token");
 
-  fetch("http://localhost:5000/api/exams/created-by-me", {
+  fetch(`${BASE_URL}/api/exams/created-by-me`, {
     headers: {
       Authorization: token
     }
@@ -29,7 +31,7 @@ function loadTeacherExams() {
       const examList = document.getElementById("examList");
       examList.innerHTML = "";
 
-      if (exams.length === 0) {
+      if (!exams || exams.length === 0) {
         examList.innerHTML = "<tr><td colspan='3'>No exams created yet.</td></tr>";
         return;
       }
@@ -55,7 +57,7 @@ function loadTeacherExams() {
 // ✏️ Edit Exam (future functionality)
 function editExam(id) {
   localStorage.setItem("editExamId", id);
-  window.location.href = "edit-exam.html"; // Page to be created later
+  window.location.href = "edit-exam.html";
 }
 
 // ❌ Delete Exam
@@ -65,7 +67,7 @@ function deleteExam(id) {
 
   const token = localStorage.getItem("token");
 
-  fetch(`http://localhost:5000/api/exams/${id}`, {
+  fetch(`${BASE_URL}/api/exams/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: token
