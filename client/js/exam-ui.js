@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!token || !examId) return (window.location.href = "index.html");
 
   try {
-    const res = await fetch(`http://localhost:5000/api/exams/${examId}`, {
+    const res = await fetch(`https://exam-backend-vr0j.onrender.com/api/exams/${examId}`, {
       headers: { Authorization: token },
     });
 
@@ -56,7 +56,7 @@ function loadQuestion() {
 
   area.innerHTML = `
     <p><strong>Q${currentQuestion + 1}:</strong> ${q.questionText || "Image-based question"}</p>
-    ${q.questionImage ? `<img src="http://localhost:5000${q.questionImage}" style="max-width: 300px;" />` : ""}
+    ${q.questionImage ? `<img src="https://exam-backend-vr0j.onrender.com${q.questionImage}" style="max-width: 300px;" />` : ""}
     ${q.options.map((opt, i) => `
       <label>
         <input type="checkbox" name="option" value="${opt}" ${answers[currentQuestion]?.includes(opt) ? 'checked' : ''} />
@@ -148,7 +148,7 @@ async function submitTest() {
   };
 
   try {
-    const res = await fetch(`http://localhost:5000/api/exams/${examId}/submit`, {
+    const res = await fetch(`https://exam-backend-vr0j.onrender.com/api/exams/${examId}/submit`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
