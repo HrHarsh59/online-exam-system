@@ -1,10 +1,11 @@
+const BASE_URL = "https://exam-backend-vr0j.onrender.com";
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("examForm");
   const questionsContainer = document.getElementById("questionsContainer");
   const addQuestionBtn = document.getElementById("addQuestionBtn");
   const submitExamBtn = document.getElementById("submitExamBtn");
 
-  // Load saved state if available
   const savedState = sessionStorage.getItem("createExamData");
   if (savedState) {
     const { title, date, duration, questions } = JSON.parse(savedState);
@@ -16,11 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   addQuestionBtn.addEventListener("click", () => addQuestionBlock());
-
-  // Save form state on input/change
   form.addEventListener("input", saveFormToSession);
   form.addEventListener("change", saveFormToSession);
-
   submitExamBtn.addEventListener("click", handleSubmitExam);
 });
 
@@ -130,12 +128,11 @@ async function handleSubmitExam() {
         let imageUrl = "";
 
         try {
-          // ✅ Try uploading if file selected
           if (imageFile) {
             const formData = new FormData();
             formData.append("image", imageFile);
 
-            const uploadRes = await fetch("http://localhost:5000/api/upload-image", {
+            const uploadRes = await fetch(`${BASE_URL}/api/upload-image`, {
               method: "POST",
               body: formData
             });
@@ -144,9 +141,8 @@ async function handleSubmitExam() {
             imageUrl = uploadData.imageUrl;
           }
 
-          // ✅ Use fallback image preview if file not selected
-          if (!imageUrl && previewImage?.src?.includes("http://localhost:5000")) {
-            imageUrl = previewImage.src.replace("http://localhost:5000", "");
+          if (!imageUrl && previewImage?.src?.includes(BASE_URL)) {
+            imageUrl = previewImage.src.replace(BASE_URL, "");
           }
 
           const options = Array.from(block.querySelectorAll(".optionInput")).map(opt => opt.value.trim());
