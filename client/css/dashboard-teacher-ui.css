@@ -86,10 +86,20 @@
     background-color: #3a86ff;
     border: none;
     color: white;
-    font-size: 1.5rem;
-    padding: 0.6rem 1rem;
-    border-radius: 50%;
+    font-size: 1rem;              /* Bigger + icon */
+    width: 40px;                  /* Equal width and height */
+    height: 40px;
+    border-radius: 50%;           /* Perfect circle */
+    display: flex;                /* Center the + sign */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .create-btn:hover {
+    background-color: #1e66d1;
   }
   
   .exam-table {
