@@ -5,7 +5,9 @@ const Exam = require('../models/Exam');
 const Submission = require('../models/Submission');
 
 router.get('/dashboard', authMiddleware, async (req, res) => {
-  try {
+   try {
+    console.log("User in student dashboard:", req.user); 
+
     if (req.user.role !== 'student') {
       return res.status(403).json({ message: 'Access denied' });
     }
