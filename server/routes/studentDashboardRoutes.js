@@ -9,11 +9,16 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
     console.log("User in student dashboard:", req.user); // you already added this
 
     const now = new Date();
-    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const indiaOffset = 5.5 * 60 * 60000; // IST offset from UTC in ms
+    const localNow = new Date(now.getTime() + indiaOffset);
 
-    const currentExams = await Exam.find();
+    const startOfToday = new Date(localNow.getFullYear(), localNow.getMonth(), localNow.getDate());
+    const endOfToday = new Date(localNow.getFullYear(), localNow.getMonth(), localNow.getDate() + 1);
 
+
+    const currentExams = await Exam.find({
+      date: { $gte: startOfToday, $lt: endOfToday }
+    });
 
     const upcomingExams = await Exam.find({
       date: { $gte: endOfToday }
