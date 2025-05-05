@@ -57,7 +57,6 @@ function loadQuestion() {
   area.innerHTML = `
     <p><strong>Q${currentQuestion + 1}:</strong> ${q.questionText || "Image-based question"}</p>
     ${q.questionImage ? `<img src="https://exam-backend-vr0j.onrender.com${q.questionImage}" style="max-width: 300px;" />` : ""}
-    console.log(q.questionImage);
     ${q.options.map((opt, i) => `
       <label>
         <input type="checkbox" name="option" value="${opt}" ${answers[currentQuestion]?.includes(opt) ? 'checked' : ''} />
