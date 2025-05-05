@@ -12,9 +12,8 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-    const currentExams = await Exam.find({
-      date: { $gte: startOfToday, $lt: endOfToday }
-    });
+    const currentExams = await Exam.find();
+
 
     const upcomingExams = await Exam.find({
       date: { $gte: endOfToday }
