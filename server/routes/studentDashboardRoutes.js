@@ -5,36 +5,22 @@ const Exam = require('../models/Exam');
 const Submission = require('../models/Submission');
 
 router.get('/dashboard', authMiddleware, async (req, res) => {
-   try {
-    console.log("User in student dashboard:", req.user); 
+  try {
+    console.log("User in student dashboard:", req.user); // you already added this
 
-    if (req.user.role !== 'student') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
-
-    const studentId = req.user.id;
-
-    // 🔹 Get today's start and end time
     const now = new Date();
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-    // 🔹 Current Exam: exact today's date
-    // 🔹 Current Exams (all for today)
     const currentExams = await Exam.find({
       date: { $gte: startOfToday, $lt: endOfToday }
-    }).sort({ date: 1 });
+    });
 
-
-    // 🔹 Upcoming Exams: after today
-   // 🔹 Upcoming Exams
     const upcomingExams = await Exam.find({
       date: { $gte: endOfToday }
-    }).sort({ date: 1 });
+    });
 
-
-    // 🔹 Latest Result
-    const latestSubmission = await Submission.find({ studentId })
+    const latestSubmission = await Submission.find({ studentId: req.user.id })
       .sort({ submittedAt: -1 })
       .limit(1)
       .populate('examId');
@@ -44,15 +30,13 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
       score: latestSubmission[0].score
     } : null;
 
-    res.json({
-      currentExams,      // 👈 array instead of single object
-      upcomingExams,
-      result
-    });
+    res.json({ currentExams, upcomingExams, result });
 
   } catch (err) {
+    console.error("Dashboard Error:", err);  // 🧠 ADD THIS
     res.status(500).json({ error: err.message });
   }
 });
+
 
 module.exports = router;
