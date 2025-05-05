@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!token || role !== "teacher") {
     alert("Access denied!");
-    window.location.href = "index.html";
-    return;
+    return window.location.href = "index.html";
   }
 
   loadTeacherExams();

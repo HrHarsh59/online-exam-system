@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Exam = require('../models/Exam');
-const Submission = require('../models/Submission'); // ✅ Required for result saving
+const Submission = require('../models/Submission');
 const authMiddleware = require('../middleware/authMiddleware');
 
 // ✅ Create New Exam (Teacher Only)
@@ -24,11 +24,27 @@ router.post('/create-exam', authMiddleware, async (req, res) => {
     await exam.save();
     res.status(201).json({ message: 'Exam created successfully!' });
   } catch (err) {
+    console.error("Create Exam Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// ✅ Get all exams (Admin/Teacher only)
+// ✅ Get Exams Created by the Logged-in Teacher
+router.get('/created-by-me', authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== 'teacher') {
+      return res.status(403).json({ message: 'Only teachers can access this route' });
+    }
+
+    const exams = await Exam.find({ createdBy: req.user.id });
+    res.json(exams);
+  } catch (err) {
+    console.error("Get Exams (created-by-me) Error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ✅ Get All Exams (Admin / Teacher)
 router.get('/', authMiddleware, async (req, res) => {
   try {
     if (req.user.role === 'teacher') {
@@ -41,6 +57,7 @@ router.get('/', authMiddleware, async (req, res) => {
       res.status(403).json({ message: 'Access denied' });
     }
   } catch (err) {
+    console.error("Get All Exams Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -60,6 +77,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
     res.json({ message: 'Exam deleted successfully' });
   } catch (err) {
+    console.error("Delete Exam Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -83,12 +101,12 @@ router.put('/:id', authMiddleware, async (req, res) => {
 
     res.json({ message: 'Exam updated successfully', updated });
   } catch (err) {
+    console.error("Update Exam Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-
-// ✅ Get single exam by ID (Student)
+// ✅ Get Exam by ID (Student)
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const exam = await Exam.findById(req.params.id);
@@ -97,6 +115,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
     res.json(exam);
   } catch (err) {
+    console.error("Get Exam by ID Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -138,7 +157,7 @@ router.post('/:id/submit', authMiddleware, async (req, res) => {
     await submission.save();
     res.status(201).json({ message: 'Exam submitted!', score });
   } catch (err) {
-    console.error(err);
+    console.error("Submit Exam Error:", err);
     res.status(500).json({ error: err.message });
   }
 });

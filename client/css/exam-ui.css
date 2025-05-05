@@ -159,3 +159,24 @@
     }
   }
   
+  #questionArea img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  #questionArea label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-size: 1rem;
+  }
+  
+  #questionArea input[type="checkbox"] {
+    margin-right: 0.4rem;
+    transform: scale(1.2);
+  }
+  
