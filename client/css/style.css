@@ -107,6 +107,7 @@
     margin-top: 1rem;
   }
   
+<<<<<<< HEAD
   .spinner {
     position: fixed;
     top: 0;
@@ -135,4 +136,6 @@
       transform: rotate(360deg);
     }
   }
+=======
+>>>>>>> 9ecd417a9c8ed65f3ec410000f2a6355cc69b98d
   
