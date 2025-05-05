@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f7fa;
+  }
+  
+  .dashboard {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    background-color: #0a1f35;
+    color: #fff;
+    padding: 1rem 1rem;
+    width: 240px;
+    flex-shrink: 0;
+  }
+  
+  .sidebar h2 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  
+  .sidebar .role {
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    color: #ccc;
+  }
+  
+  .sidebar nav a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .sidebar nav a.active,
+  .sidebar nav a:hover {
+    background-color: #183153;
+  }
+  
+  .main-content {
+    padding: 2rem;
+    flex: 1;
+  }
+  
+  .main-content h3 {
+    margin-top: 0;
+  }
+  
+  .card {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+    margin-bottom: 1rem;
+  }
+  
+  .card p {
+    margin: 0 0 1rem;
+  }
+  
+  button {
+    padding: 0.6rem 1.2rem;
+    background-color: #357df0;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  button:hover {
+    background-color: #245edb;
+  }
+  
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .list .item {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    padding: 0.8rem 1.2rem;
+    border-radius: 6px;
+    align-items: center;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+  }
+  
+  .placeholder {
+    background: #e4e8f0;
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    color: #555;
+  }
+  
+  .mobile-header {
+    display: none;
+    background-color: #0a1f35;
+    color: white;
+    padding: 0;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .mobile-header button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background-color: #0a1f35;
+      color: white;
+      width: 200px;
+      height: calc(100vh - 60px);
+      z-index: 999;
+    
+    }
+  
+    .sidebar.open {
+      display: block;
+    }
+  
+    .main-content {
+      padding: 1rem;
+    }
+  
+    .mobile-header {
+      display: flex;
+      background-color: #0a1f35;
+      color: white;
+      padding: 0.5rem 1rem; /* 👈 Add horizontal padding */
+      align-items: center;
+      justify-content: flex-start; /* 👈 Align to left */
+      gap: 0.75rem; /* 👈 Space between ☰ icon and title */
+    }
+  }
+  
+  

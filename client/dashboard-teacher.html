@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard-teacher-ui.css" />
+  <style>
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-left: auto;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+        <div>
+          <h2>OES</h2>
+          <p class="role">Teacher Dashboard</p>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      </div>
+      <nav>
+        <ul id="menuList">
+          <li class="active"><span class="icon">🏠</span> Dashboard</li>
+          <li><span class="icon">⚙️</span> Settings</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+      <div class="dashboard-header">
+        <h2>Exams</h2>
+        <button id="createExamBtn" class="create-btn">➕</button>
+      </div>
+
+      <div class="exam-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="examList">
+            <!-- Dynamic exam rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menuList');
+      menu.classList.toggle('show');
+    }
+  </script>
+  <script src="js/teacher.js"></script>
+</body>
+</html>

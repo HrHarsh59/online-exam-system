@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Test | Full Screen UI</title>
+  <link rel="stylesheet" href="css/exam-ui.css" />
+</head>
+<body>
+  <div class="exam-container">
+    <!-- Left Section -->
+    <div class="question-section">
+      <h2 id="examTitle">Online Test - Subject</h2>
+      <div id="questionArea">
+        <!-- Question text + optional image -->
+      </div>
+      <div class="navigation-btns">
+        <button id="markReviewBtn" class="mark-review">Mark for review</button>
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar">
+      <div class="timer-box">
+        <h3>Time Left</h3>
+        <div id="timer">
+          <span id="hours">00</span> :
+          <span id="minutes">00</span> :
+          <span id="seconds">00</span>
+        </div>
+      </div>
+
+      <div class="question-palette" id="questionPalette">
+        <!-- Question number buttons will be generated dynamically -->
+      </div>
+
+      <button id="submitTestBtn" class="submit-test">Submit Test</button>
+
+      <div class="legend">
+        <p><span class="dot current"></span> Current</p>
+        <p><span class="dot not-attempted"></span> Not Attempted</p>
+        <p><span class="dot answered"></span> Answered</p>
+        <p><span class="dot review"></span> Review</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/exam-ui.js"></script>
+</body>
+</html>

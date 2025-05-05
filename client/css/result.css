@@ -1,0 +1,82 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f6f9;
+  }
+  
+  .result-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    border-radius: 10px;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+  }
+  
+  .score-box {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+  }
+  
+  .question-block {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+  }
+  
+  .correct {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .wrong {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .option {
+    padding: 0.4rem;
+    margin: 0.3rem 0;
+    border-radius: 5px;
+  }
+  
+  .option.correct-answer {
+    background-color: #e6ffe6;
+    font-weight: bold;
+  }
+  
+  .option.selected-wrong {
+    background-color: #ffe6e6;
+    border-left: 4px solid red;
+  }
+
+  .back-btn {
+    margin-top: 2rem;
+    padding: 10px 20px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  
+  @media (max-width: 600px) {
+    .result-container {
+      padding: 1rem;
+    }
+  
+    h1 {
+      font-size: 1.4rem;
+    }
+  }
+  

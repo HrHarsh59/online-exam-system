@@ -1,0 +1,196 @@
+/* ===== Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  /* ===== Layout ===== */
+  .dashboard-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to right, #a1e3ff, #4dafff);
+  }
+  
+  .sidebar {
+    background-color: #0d1b2a;
+    color: white;
+    padding: 2rem 1rem;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .sidebar h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .sidebar .role {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: #aaa;
+  }
+  
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar nav ul li {
+    margin: 1rem 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #eee;
+  }
+  
+  .sidebar nav ul li.active {
+    background-color: #1b263b;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+  }
+  
+  .sidebar .icon {
+    margin-right: 0.5rem;
+  }
+  
+  .dashboard-main {
+    flex: 1;
+    padding: 2rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .create-btn {
+    background-color: #3a86ff;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .exam-table {
+    margin-top: 1.5rem;
+    overflow-x: auto;
+  }
+  
+  .exam-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  thead {
+    background-color: #f1f5f9;
+  }
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  td:last-child {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: #ffd60a;
+  }
+  
+  .delete-btn {
+    background-color: #ff6b6b;
+    color: white;
+  }
+  
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .dashboard-container {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+  
+    .sidebar h2 {
+      margin-bottom: 0;
+    }
+  
+    .sidebar .role {
+      margin: 0.25rem 0 1rem;
+    }
+  
+    .sidebar nav ul {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 1rem;
+    }
+  
+    .sidebar nav ul.show {
+      display: flex;
+    }
+  
+    .sidebar nav ul li {
+      width: 100%;
+      margin: 0.3rem 0;
+    }
+  
+    .dashboard-main {
+      padding: 1rem;
+    }
+  
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .create-btn {
+      align-self: flex-end;
+      font-size: 1.2rem;
+      padding: 0.5rem 0.9rem;
+    }
+  }
+  
