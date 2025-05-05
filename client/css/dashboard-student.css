@@ -117,6 +117,32 @@ body {
     color: white;
     cursor: pointer;
   }
+
+  .logout-section {
+    margin-top: auto;
+    padding-top: 2rem;
+  }
+  
+  .logout-btn {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #e74c3c;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .logout-btn:hover {
+    background-color: #c0392b;
+  }
+
+  .card.highlight {
+    border: 2px solid #28a745;
+    background-color: #eaffea;
+  }
+  
+  
   
   @media (max-width: 768px) {
     .dashboard {
@@ -154,5 +180,7 @@ body {
       gap: 0.75rem; /* 👈 Space between ☰ icon and title */
     }
   }
+
+  
   
   

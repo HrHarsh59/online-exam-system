@@ -2,6 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
   const BASE_URL = "https://exam-backend-vr0j.onrender.com";
 
+  // Add loading spinner
+  const currentBox = document.getElementById("currentExamBox");
+  const resultBox = document.getElementById("resultBox");
+  currentBox.innerHTML = "<p class='exam-title'>Loading...</p>";
+  resultBox.innerHTML = "Loading...";
+
+  // Greet user
+  const user = localStorage.getItem("userName") || "Student";
+  const greet = document.createElement("h3");
+  greet.textContent = `👋 Welcome, ${user}!`;
+  document.querySelector(".main-content").prepend(greet);
+
   fetch(`${BASE_URL}/api/student/dashboard`, {
     headers: {
       Authorization: token
@@ -9,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log("Dashboard Data:", data); // 🐞 Debug
       renderCurrentExams(data.currentExams);
       renderUpcomingExams(data.upcomingExams);
       renderResult(data.result);
@@ -18,7 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Failed to load dashboard:", err);
     });
 
-  // Toggle menu for mobile
+  // Logout
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    const confirmLogout = confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      localStorage.clear();
+      window.location.href = "index.html";
+    }
+  });
+
+  // Mobile menu
   document.getElementById("menuToggle").addEventListener("click", () => {
     document.querySelector(".sidebar").classList.toggle("open");
   });
@@ -26,9 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function renderCurrentExams(list) {
   const box = document.getElementById("currentExamBox");
-  const btn = document.getElementById("startExamBtn");
-
-  box.innerHTML = ""; // clear
+  box.innerHTML = "";
 
   if (!list || list.length === 0) {
     box.innerHTML = "<p class='exam-title'>No current exam</p>";
@@ -37,7 +55,7 @@ function renderCurrentExams(list) {
 
   list.forEach(exam => {
     const card = document.createElement("div");
-    card.className = "card";
+    card.className = "card highlight"; // 🎯 highlight current exam
 
     const title = document.createElement("p");
     title.className = "exam-title";
