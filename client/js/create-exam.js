@@ -85,7 +85,6 @@ function saveFormToSession() {
     const correctAnswers = options.filter((opt, i) =>
       block.querySelectorAll(".correctCheckbox")[i].checked
     );
-
     const img = block.querySelector(".imagePreview");
     return {
       questionText,
@@ -172,6 +171,7 @@ async function handleSubmitExam() {
     const examData = { title, date, duration, questions };
 
     localStorage.setItem("previewExamData", JSON.stringify(examData));
+    sessionStorage.removeItem("createExamData");
     window.location.href = "preview-exam.html";
 
   } catch (err) {

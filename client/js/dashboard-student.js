@@ -96,9 +96,12 @@ function renderUpcomingExams(list) {
 
 function renderResult(result) {
   const box = document.getElementById("resultBox");
-  if (!result) {
+
+  if (!result || !result.examTitle || result.score === undefined) {
     box.textContent = "No result yet";
-  } else {
-    box.textContent = `${result.examTitle} – ${result.score}`;
+    return;
   }
+
+  box.textContent = `${result.examTitle} – ${result.score}`;
 }
+
