@@ -69,3 +69,17 @@ button {
   display: none;
   border-radius: 8px;
 }
+
+#backToDashboard {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  background-color: #6c757d;
+  cursor: pointer;
+  font-weight: bold;
+}
+#backToDashboard:hover {
+  background-color: #5a6268;
+}
+

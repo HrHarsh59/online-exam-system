@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("examTitle").value = title;
     document.getElementById("examDate").value = date;
     document.getElementById("examDuration").value = duration;
-
     questions.forEach(q => addQuestionBlock(q));
   }
 
@@ -20,6 +19,23 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("input", saveFormToSession);
   form.addEventListener("change", saveFormToSession);
   submitExamBtn.addEventListener("click", handleSubmitExam);
+
+  // ✅ Before Exit Prompt
+  window.addEventListener("beforeunload", function (e) {
+    e.preventDefault();
+    e.returnValue = ''; // For most browsers
+  });
+
+  document.getElementById("backToDashboard").addEventListener("click", () => {
+    const confirmLeave = confirm("Do you want to save this exam as a draft?");
+    if (confirmLeave) {
+      alert("Draft saved!");
+      window.location.href = "dashboard-teacher.html";
+    } else {
+      sessionStorage.removeItem("createExamData");
+      window.location.href = "dashboard-teacher.html";
+    }
+  });
 });
 
 function addQuestionBlock(data = null) {
@@ -39,7 +55,7 @@ function addQuestionBlock(data = null) {
 
     <label>Or Upload Question Image</label>
     <input type="file" class="questionImage">
-    <img class="imagePreview" style="display:none; max-width:200px; margin-top:10px;" />
+    <img class="imagePreview" style="display:${data?.questionImagePreview ? "block" : "none"}; max-width:200px; margin-top:10px;" src="${data?.questionImagePreview || ""}" />
 
     <div class="option-group">
       <label>Options</label>
@@ -49,11 +65,6 @@ function addQuestionBlock(data = null) {
 
   const imageInput = block.querySelector(".questionImage");
   const preview = block.querySelector(".imagePreview");
-
-  if (data?.questionImagePreview) {
-    preview.src = data.questionImagePreview;
-    preview.style.display = "block";
-  }
 
   imageInput.addEventListener("change", () => {
     const file = imageInput.files[0];
@@ -76,7 +87,6 @@ function saveFormToSession() {
   const title = document.getElementById("examTitle").value;
   const date = document.getElementById("examDate").value;
   const duration = document.getElementById("examDuration").value;
-
   const questionBlocks = document.querySelectorAll(".question-block");
 
   const questions = Array.from(questionBlocks).map(block => {
@@ -85,10 +95,10 @@ function saveFormToSession() {
     const correctAnswers = options.filter((opt, i) =>
       block.querySelectorAll(".correctCheckbox")[i].checked
     );
-    const img = block.querySelector(".imagePreview");
+    const previewImg = block.querySelector(".imagePreview");
     return {
       questionText,
-      questionImagePreview: img?.src || "",
+      questionImagePreview: previewImg?.src || "",
       options,
       correctAnswer: correctAnswers
     };
@@ -169,7 +179,6 @@ async function handleSubmitExam() {
 
     const questions = await Promise.all(uploadPromises);
     const examData = { title, date, duration, questions };
-
     localStorage.setItem("previewExamData", JSON.stringify(examData));
     sessionStorage.removeItem("createExamData");
     window.location.href = "preview-exam.html";
