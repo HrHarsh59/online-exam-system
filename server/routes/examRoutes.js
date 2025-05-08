@@ -4,39 +4,40 @@ const Exam = require('../models/Exam');
 const Submission = require('../models/Submission');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// ✅ Create New Exam (Teacher Only)
+// ✅ Create Exam (Teacher Only) with Draft Support
 router.post('/create-exam', authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== 'teacher') {
       return res.status(403).json({ message: 'Only teachers can create exams' });
     }
 
-    const { title, date, duration, questions } = req.body;
+    const { title, date, duration, questions, isDraft = false } = req.body;
 
     const exam = new Exam({
       title,
       date,
       duration,
       questions,
+      isDraft,
       createdBy: req.user.id
     });
 
     await exam.save();
-    res.status(201).json({ message: 'Exam created successfully!' });
+    res.status(201).json({ message: isDraft ? 'Draft saved successfully!' : 'Exam created successfully!' });
   } catch (err) {
     console.error("Create Exam Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// ✅ Get Exams Created by the Logged-in Teacher
+// ✅ Get Exams Created by Teacher (only published)
 router.get('/created-by-me', authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== 'teacher') {
       return res.status(403).json({ message: 'Only teachers can access this route' });
     }
 
-    const exams = await Exam.find({ createdBy: req.user.id });
+    const exams = await Exam.find({ createdBy: req.user.id, isDraft: false }).sort({ date: -1 });
     res.json(exams);
   } catch (err) {
     console.error("Get Exams (created-by-me) Error:", err);
@@ -44,20 +45,17 @@ router.get('/created-by-me', authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ Get All Exams (Admin / Teacher)
-router.get('/', authMiddleware, async (req, res) => {
+// ✅ (Optional) Get Draft Exams by Teacher
+router.get('/drafts', authMiddleware, async (req, res) => {
   try {
-    if (req.user.role === 'teacher') {
-      const exams = await Exam.find({ createdBy: req.user.id });
-      res.json(exams);
-    } else if (req.user.role === 'admin') {
-      const exams = await Exam.find();
-      res.json(exams);
-    } else {
-      res.status(403).json({ message: 'Access denied' });
+    if (req.user.role !== 'teacher') {
+      return res.status(403).json({ message: 'Only teachers can access this route' });
     }
+
+    const drafts = await Exam.find({ createdBy: req.user.id, isDraft: true }).sort({ date: -1 });
+    res.json(drafts);
   } catch (err) {
-    console.error("Get All Exams Error:", err);
+    console.error("Get Drafts Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -70,10 +68,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     }
 
     const deleted = await Exam.findOneAndDelete({ _id: req.params.id, createdBy: req.user.id });
-
-    if (!deleted) {
-      return res.status(404).json({ message: 'Exam not found or unauthorized' });
-    }
+    if (!deleted) return res.status(404).json({ message: 'Exam not found or unauthorized' });
 
     res.json({ message: 'Exam deleted successfully' });
   } catch (err) {
@@ -95,9 +90,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
       { new: true }
     );
 
-    if (!updated) {
-      return res.status(404).json({ message: 'Exam not found or unauthorized' });
-    }
+    if (!updated) return res.status(404).json({ message: 'Exam not found or unauthorized' });
 
     res.json({ message: 'Exam updated successfully', updated });
   } catch (err) {
@@ -110,9 +103,8 @@ router.put('/:id', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const exam = await Exam.findById(req.params.id);
-    if (!exam) {
-      return res.status(404).json({ message: 'Exam not found' });
-    }
+    if (!exam) return res.status(404).json({ message: 'Exam not found' });
+
     res.json(exam);
   } catch (err) {
     console.error("Get Exam by ID Error:", err);
@@ -135,11 +127,7 @@ router.post('/:id/submit', authMiddleware, async (req, res) => {
 
     exam.questions.forEach((question, index) => {
       const submitted = answers.find(ans => ans.questionId === index.toString());
-
-      const correct = Array.isArray(question.correctAnswer)
-        ? question.correctAnswer
-        : [question.correctAnswer];
-
+      const correct = Array.isArray(question.correctAnswer) ? question.correctAnswer : [question.correctAnswer];
       const selected = submitted?.selectedAnswer || [];
 
       if (JSON.stringify(correct.sort()) === JSON.stringify(selected.sort())) {
