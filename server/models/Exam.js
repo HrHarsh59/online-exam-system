@@ -1,12 +1,10 @@
-// server/models/Exam.js
-
 const mongoose = require('mongoose');
 
 const questionSchema = new mongoose.Schema({
   questionText: {
     type: String,
-    required: function() {
-      return !this.questionImage;  // ✅ Agar image nahi hai tab text required
+    required: function () {
+      return !this.questionImage; // ✅ Agar image nahi hai tab text required
     }
   },
   questionImage: {
@@ -40,6 +38,10 @@ const examSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  isDraft: {
+    type: Boolean,
+    default: false  // ✅ Added this field to track drafts
   }
 });
 

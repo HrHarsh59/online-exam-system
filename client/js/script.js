@@ -55,6 +55,7 @@ if (loginForm) {
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.user.role);
+        localStorage.setItem("userName", data.user.name);
         window.location.href = `dashboard-${data.user.role}.html`;
       } else {
         showToast(data.message || "Login failed.");

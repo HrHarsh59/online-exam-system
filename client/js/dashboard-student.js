@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
   const BASE_URL = "https://exam-backend-vr0j.onrender.com";
+
+  if (!token || role !== "student") {
+    alert("Session expired or unauthorized. Please login again.");
+    return window.location.href = "index.html";
+  }
 
   // Add loading spinner
   const currentBox = document.getElementById("currentExamBox");
@@ -55,7 +61,7 @@ function renderCurrentExams(list) {
 
   list.forEach(exam => {
     const card = document.createElement("div");
-    card.className = "card highlight"; // 🎯 highlight current exam
+    card.className = "card highlight";
 
     const title = document.createElement("p");
     title.className = "exam-title";
@@ -104,4 +110,3 @@ function renderResult(result) {
 
   box.textContent = `${result.examTitle} – ${result.score}`;
 }
-

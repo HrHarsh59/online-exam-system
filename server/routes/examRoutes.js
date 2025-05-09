@@ -3,7 +3,6 @@ const router = express.Router();
 const Exam = require('../models/Exam');
 const Submission = require('../models/Submission');
 const authMiddleware = require('../middleware/authMiddleware');
-
 // ✅ Create New Exam (Teacher Only)
 router.post('/create-exam', authMiddleware, async (req, res) => {
   try {
@@ -11,38 +10,45 @@ router.post('/create-exam', authMiddleware, async (req, res) => {
       return res.status(403).json({ message: 'Only teachers can create exams' });
     }
 
-    const { title, date, duration, questions } = req.body;
+    const { title, date, duration, questions, isDraft } = req.body; // ✅ include isDraft from body
 
     const exam = new Exam({
       title,
       date,
       duration,
       questions,
+      isDraft: isDraft || false, // ✅ set default to false if not passed
       createdBy: req.user.id
     });
 
     await exam.save();
-    res.status(201).json({ message: 'Exam created successfully!' });
+    res.status(201).json({ message: isDraft ? 'Draft saved!' : 'Exam created successfully!' });
   } catch (err) {
     console.error("Create Exam Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// ✅ Get Exams Created by the Logged-in Teacher
+
+// ✅ Get Exams Created by the Logged-in Teacher (excluding drafts)
 router.get('/created-by-me', authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== 'teacher') {
       return res.status(403).json({ message: 'Only teachers can access this route' });
     }
 
-    const exams = await Exam.find({ createdBy: req.user.id });
+    const exams = await Exam.find({ 
+      createdBy: req.user.id, 
+      isDraft: false // ✅ Only show non-draft exams
+    });
+
     res.json(exams);
   } catch (err) {
     console.error("Get Exams (created-by-me) Error:", err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // ✅ Get All Exams (Admin / Teacher)
 router.get('/', authMiddleware, async (req, res) => {
